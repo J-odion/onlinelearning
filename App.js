@@ -11,8 +11,9 @@ import CircleButton from "./components/CircleButton";
 import IconButton from "./components/IconButton";
 
 import EmojiPicker from "./components/EmojiPicker";
-
+import EmojiList from "./components/EmojiList";
 import * as ImagePicker from "expo-image-picker";
+import EmojiSticker from "./components/EmojiSticker";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -22,6 +23,7 @@ export default function App() {
   const [selectedImage, setSelectedImage] = useState(null);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [showAppOptions, setShowAppOptions] = useState(false);
+  const [pickedEmoji, setPickedEmoji] = useState(null);
 
   const onAddSticker = () => {
     setIsModalVisible(true);
@@ -67,10 +69,6 @@ export default function App() {
     setShowAppOptions(false);
   };
 
-  const onAddSticker = () => {
-    // we will implement this later
-  };
-
   const onSaveImageAsync = async () => {
     // we will implement this later
   };
@@ -82,6 +80,9 @@ export default function App() {
           placeholderImageSource={PlaceholderImage}
           selectedImage={selectedImage}
         />
+        {pickedEmoji !== null ? (
+          <EmojiSticker imageSize={40} stickerSource={pickedEmoji} />
+        ) : null}
       </View>
 
       {showAppOptions ? (
@@ -112,6 +113,7 @@ export default function App() {
 
       <EmojiPicker isVisible={isModalVisible} onClose={onModalClose}>
         {/* A list of emoji component will go here */}
+        <EmojiList onSelect={setPickedEmoji} onCloseModal={onModalClose} />
       </EmojiPicker>
     </View>
   );
